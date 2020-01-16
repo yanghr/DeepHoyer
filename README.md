@@ -12,12 +12,10 @@ url={https://openreview.net/forum?id=rylBK34FDS}
 }
 ```
 
-The codes for MNIST, CIFAR-10 and ImageNet experiments are within `mnist/`, `cifar/` and `imagenet/` folder respectively. Please follow the README file in each folder to run the experiemnts. Codes are tested with Pytorch 1.2.0 and Python 3.6.8.
+The codes for MNIST, CIFAR-10 and ImageNet experiments are within `mnist/`, `cifar/` and `imagenet/` folder respectively. Please follow the README file in each folder to run the experiments. Codes are tested with Pytorch 1.2.0 and Python 3.6.8.
 
 
 # Acknowledgement
 The codes of the MNIST experiments are adapted from [Deep-Compression-PyTorch](https://github.com/mightydeveloper/Deep-Compression-PyTorch).
-
 The codes of the CIFAR-10 experiments are adapted from [bearpaw/pytorch-classification](https://github.com/bearpaw/pytorch-classification).
-
 The codes of the MNIST experiments are adapted from [pytorch/examples](https://github.com/pytorch/examples/tree/master/imagenet).
