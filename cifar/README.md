@@ -1,3 +1,64 @@
+# CIFAR-10 experiments
+
+This folder contains the code for compressing CIFAR-10 models with structural pruning. The code support multiple common model architectures and layer configurations used on CIFAR-10. The pruning code is tested with ResNet models of various number of layers, and should also work with other architectures like VGG or DenseNet
+
+## Usage
+
+As described in Section 4.3 of the paper, the full training pipeline consist of training with sparsity-inducing regularizer, pruning and finetuning. Although the training pipeline can be started from scratch, based on common practice we suggest starting the training from a pretrained dense model to get better pruning performance.
+
+### Acquiring pretrained dense model (optional)
+
+```
+python element.py --reg 0 --decay 0.0
+```
+
+By default the model will be trained for 250 epochs with learning rate 0.001. These hyperparameters can be controlled with `--epochs` and `--lr` respectively.
+
+The pretrained MLP model should reach around 98.4% testing accuracy, and CNN model should reach around 99.2% testing accuracy. The pretrained model will be saved to `saves/elt_0.0_0.pth`, which will be loaded later on in the sparse training step. 
+
+### Training with sparsity-inducing regularizer
+
+#### Element-wise pruning
+
+```
+python element.py --reg [regularization type] --decay [regularization strength] --pretrained
+```
+
+By default the model will be trained for 250 epochs with learning rate 0.001. These hyperparameters can be controlled with `--epochs` and `--lr` respectively. The valid input to the `--reg` flag are integers from 0 to 4, which stands for 0:None 1:L1 2:Hoyer 3:HS 4:Transformed L1 respectively. Use the `--pretrained` flag if pretrained dense model is available.
+
+The trained model will be saved to path `'saves/elt_(args.decay)_(args.reg_type).pth'`. Note that at this stage the model haven't been pruned yet, so it should still be a dense model but with a lot of close-to-zero elements.
+
+#### Structural pruning
+
+```
+python structure.py --reg [regularization type] --decay [regularization strength] --pretrained
+```
+
+By default the model will be trained for 250 epochs with learning rate 0.001. These hyperparameters can be controlled with `--epochs` and `--lr` respectively. The valid input to the `--reg` flag are integers from 0 to 2, which stands for 0:None 1:Group Lasso (L1) 2:Group-HS respectively. Use the `--pretrained` flag if pretrained dense model is available. The grouping is based on channels and filters.
+
+The trained model will be saved to path `'saves/str_(args.decay)_(args.reg_type).pth'`. Note that at this stage the model haven't been pruned yet, so it should still be a dense model but with a lot of filters/channels close to zero.
+
+
+### Pruning, finetuning and evaluating pruned model
+
+Pruning can be done based on a fixed threshold, or based on a fixed ratio to the std of each layer. In parctice using std based threshold is prefered for MNIST experiments. The pruned model is then finetuned with zero elements fixed.
+
+To set a fixed threshold for pruning, use 
+```
+python prun_tune_T.py --model [path to trained model] --sensitivity [pruning threshold]
+```
+
+To set a fixed ratio of std for pruning, use 
+```
+python prun_tune_V.py --model [path to trained model] --sensitivity [ratio of threshold/std]
+```
+
+By default the model will then be finetuned for 100 epochs with learning rate 0.0001. These hyperparameters can be controlled with `--epochs` and `--lr` respectively. Detailed sparsity information (for both element-wise and structural sparsity) of each layer and the whold model will be printed, as well as the best testing accuracy achieved during finetuning. The pruned and finetuned model will also be stored.
+
+## Acknowledgement
+This code is adapted from [bearpaw/pytorch-classification](https://github.com/bearpaw/pytorch-classification).
+
+
 # pytorch-classification
 Classification on CIFAR-10/100 and ImageNet with PyTorch.
 
@@ -34,40 +95,6 @@ Note that the number of parameters are computed on the CIFAR-10 dataset.
 | ResNeXt-29, 16x64         | 68.16              | 3.53               | 17.30              |
 | DenseNet-BC (L=100, k=12) | 0.77               | 4.54               | 22.88              |
 | DenseNet-BC (L=190, k=40) | 25.62              | 3.32               | 17.17              |
-
-
-![cifar](utils/images/cifar.png)
-
-### ImageNet
-Single-crop (224x224) validation error rate is reported. 
-
-
-| Model                | Params (M)         |  Top-1 Error (%)   | Top-5 Error  (%)   |
-| -------------------  | ------------------ | ------------------ | ------------------ |
-| ResNet-18            | 11.69              |  30.09             | 10.78              |
-| ResNeXt-50 (32x4d)   | 25.03              |  22.6              | 6.29               |
-
-![Validation curve](utils/images/imagenet.png)
-
-## Pretrained models
-Our trained models and training logs are downloadable at [OneDrive](https://mycuhk-my.sharepoint.com/personal/1155056070_link_cuhk_edu_hk/_layouts/15/guestaccess.aspx?folderid=0a380d1fece1443f0a2831b761df31905&authkey=Ac5yBC-FSE4oUJZ2Lsx7I5c).
-
-## Supported Architectures
-
-### CIFAR-10 / CIFAR-100
-Since the size of images in CIFAR dataset is `32x32`, popular network structures for ImageNet need some modifications to adapt this input size. The modified models is in the package `models.cifar`:
-- [x] [AlexNet](https://arxiv.org/abs/1404.5997)
-- [x] [VGG](https://arxiv.org/abs/1409.1556) (Imported from [pytorch-cifar](https://github.com/kuangliu/pytorch-cifar))
-- [x] [ResNet](https://arxiv.org/abs/1512.03385)
-- [x] [Pre-act-ResNet](https://arxiv.org/abs/1603.05027)
-- [x] [ResNeXt](https://arxiv.org/abs/1611.05431) (Imported from [ResNeXt.pytorch](https://github.com/prlz77/ResNeXt.pytorch))
-- [x] [Wide Residual Networks](http://arxiv.org/abs/1605.07146) (Imported from [WideResNet-pytorch](https://github.com/xternalz/WideResNet-pytorch))
-- [x] [DenseNet](https://arxiv.org/abs/1608.06993)
-
-### ImageNet
-- [x] All models in `torchvision.models` (alexnet, vgg, resnet, densenet, inception_v3, squeezenet)
-- [x] [ResNeXt](https://arxiv.org/abs/1611.05431)
-- [ ] [Wide Residual Networks](http://arxiv.org/abs/1605.07146)
 
 
 ## Contribute
