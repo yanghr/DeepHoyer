@@ -12,7 +12,7 @@ url={https://openreview.net/forum?id=rylBK34FDS}
 }
 ```
 
-The codes for MNIST, CIFAR-10 and ImageNet experiments are within `mnist/`, `cifar/` and `imagenet/` folder respectively. Please follow the README file in each folder to run the experiments. Codes are tested with Pytorch 1.2.0 and Python 3.6.8.
+The codes for MNIST, CIFAR-10 and ImageNet experiments are within `mnist/`, `cifar/` and `imagenet/` folder respectively. Please follow the README file in each folder to run the experiments. Codes are tested with Pytorch 1.2.0 and Python 3.6.8, tqdm package is preferred for better visualization of the training process.
 
 
 ### Acknowledgement
