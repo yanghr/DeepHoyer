@@ -24,7 +24,7 @@ The pretrained MLP model should reach around 98.4% testing accuracy, and CNN mod
 python element.py --reg [regularization type] --decay [regularization strength] --pretrained
 ```
 
-By default the model will be trained for 250 epochs with learning rate 0.001. These hyperparameters can be controlled with `--epochs` and `--lr` respectively. The valid input to the `--reg` flag are integers from 0 to 4, which stands for 0:None 1:L1 2:Hoyer 3:HS 4:Transformed L1 respectively.
+By default the model will be trained for 250 epochs with learning rate 0.001. These hyperparameters can be controlled with `--epochs` and `--lr` respectively. The valid input to the `--reg` flag are integers from 0 to 4, which stands for 0:None 1:L1 2:Hoyer 3:HS 4:Transformed L1 respectively. Use the `--pretrained` flag if pretrained dense model is available.
 
 The trained model will be saved to path `'saves/elt_(args.decay)_(args.reg_type).pth'`. Note that at this stage the model haven't been pruned yet, so it should still be a dense model but with a lot of close-to-zero elements.
 
@@ -34,7 +34,7 @@ The trained model will be saved to path `'saves/elt_(args.decay)_(args.reg_type)
 python structure.py --reg [regularization type] --decay [regularization strength] --pretrained
 ```
 
-By default the model will be trained for 250 epochs with learning rate 0.001. These hyperparameters can be controlled with `--epochs` and `--lr` respectively. The valid input to the `--reg` flag are integers from 0 to 2, which stands for 0:None 1:Group Lasso (L1) 2:Group-HS respectively. The grouping is based on channels and filters.
+By default the model will be trained for 250 epochs with learning rate 0.001. These hyperparameters can be controlled with `--epochs` and `--lr` respectively. The valid input to the `--reg` flag are integers from 0 to 2, which stands for 0:None 1:Group Lasso (L1) 2:Group-HS respectively. Use the `--pretrained` flag if pretrained dense model is available. The grouping is based on channels and filters.
 
 The trained model will be saved to path `'saves/str_(args.decay)_(args.reg_type).pth'`. Note that at this stage the model haven't been pruned yet, so it should still be a dense model but with a lot of filters/channels close to zero.
 
