@@ -20,4 +20,4 @@ The codes of the MNIST experiments are adapted from [Deep-Compression-PyTorch](h
 
 The codes of the CIFAR-10 experiments are adapted from [bearpaw/pytorch-classification](https://github.com/bearpaw/pytorch-classification).
 
-The codes of the MNIST experiments are adapted from [pytorch/examples](https://github.com/pytorch/examples/tree/master/imagenet).
+The codes of the ImageNet experiments are adapted from [pytorch/examples](https://github.com/pytorch/examples/tree/master/imagenet).
