@@ -22,7 +22,7 @@ For more details on training the dense model please see the training recipes pro
 Here we apply group sparsity regularizations (group LASSO or group-HS) tot he training process of the CIFAR-10 model
 
 ```
-python cifar.py -a resnet --depth 110 --epochs 164 --schedule 81 122 --gamma 0.1 --wd 1e-4 --reg [regularization type] --decay [regularization strength] --model [path to pretrained model]
+python cifar_group.py -a resnet --depth 110 --epochs 164 --schedule 81 122 --gamma 0.1 --wd 1e-4 --reg [regularization type] --decay [regularization strength] --model [path to pretrained model]
 ```
 
 The valid input to the `--reg` flag are integers from 0 to 2, which stands for 0:None 1:Group Lasso (L1) 2:Group-HS respectively.
