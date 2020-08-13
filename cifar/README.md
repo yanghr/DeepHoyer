@@ -25,7 +25,7 @@ Here we apply group sparsity regularizations (group LASSO or group-HS) tot he tr
 python cifar_group.py -a resnet --depth 110 --epochs 164 --schedule 81 122 --gamma 0.1 --wd 1e-4 --reg [regularization type] --decay [regularization strength] --model [path to pretrained model]
 ```
 
-The valid input to the `--reg` flag are integers from 0 to 2, which stands for 0:None 1:Group Lasso (L1) 2:Group-HS respectively.
+The valid input to the `--reg` flag are integers from 0 to 3, which stands for 0:None 1:Group Lasso (L1) 2:Group-Hoyer (not explored in the paper) 3:Group-HS respectively. You may set `--reg 3` to replicate the Group-HS results reported in the paper.
 
 If you intend to load the pretrained model, please make sure the `-a` and `--depth` flag is set as the same as the architecture of the loaded model. You may first add `-e` to the command to evaluate the loaded model before training starts. 
 
